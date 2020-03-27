@@ -10,6 +10,7 @@ public class PlayerControl : MonoBehaviour
     bool aInput = false;
     bool sInput = false;
     bool dInput = false;
+    bool shiftInput = false;
 
     Rigidbody2D rigidBody;
     public CaveGenerator caveGenerator;
@@ -31,8 +32,8 @@ public class PlayerControl : MonoBehaviour
     {
         float dt = Time.deltaTime;
         Vector3 setVel = new Vector3(0, 0, 0);
-        if (aInput) setVel = setVel + new Vector3(-500 * dt, 0, 0);
-        if (dInput) setVel = setVel + new Vector3(500 * dt, 0, 0);
+        if (aInput) setVel = setVel + new Vector3(!shiftInput ? - 500 * dt : -1250 * dt, 0, 0);
+        if (dInput) setVel = setVel + new Vector3(!shiftInput ? 500 * dt : 1250 * dt, 0, 0);
         setVel.y = rigidBody.velocity.y;
         rigidBody.velocity = setVel;
         if (wInput)
@@ -56,5 +57,7 @@ public class PlayerControl : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.S))  { sInput = false; }
         if (Input.GetKeyDown(KeyCode.D)){ dInput = true; }
         if (Input.GetKeyUp(KeyCode.D))  { dInput = false; }
+        if (Input.GetKeyDown(KeyCode.LeftShift)) { shiftInput = true; }
+        if (Input.GetKeyUp(KeyCode.LeftShift)) { shiftInput = false; }
     }
 }

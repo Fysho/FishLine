@@ -19,7 +19,7 @@ public class CaveGenerator : MonoBehaviour
     public Tilemap backgroundMap;
     public Tile Rock;
     public Tile Background;
-
+    public GameObject fallingRock;
     System.Random randomGenerator;
 
     void Start()
@@ -27,7 +27,30 @@ public class CaveGenerator : MonoBehaviour
         SetUp();
         GenerateCaves(2,1,1, 10.0f);
         UpdateTileMap();
-        
+        GenerateFallingRocks();
+
+
+    }
+
+    private void GenerateFallingRocks()
+    {
+
+        for (int y = 1; y < height - 1; y++)
+        {
+            for (int x = 1; x < width - 1; x++)
+            {
+                if(terrainMap[x,y] == 0)
+                {
+                    if (terrainMap[x, y - 1] == 1)
+                    {
+                        if (randomGenerator.NextDouble() < 1.1f )
+                        {
+                            Instantiate(fallingRock, new Vector3(x - width / 2 + 0.5f, (height - y) - height / 2 + 0.5f, 0), Quaternion.identity);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void SetUp()
@@ -59,10 +82,10 @@ public class CaveGenerator : MonoBehaviour
             amplitude *= persistance;
         }
 
-        for (int y = 0; y < width; y++)
+        for (int y = 0; y < height; y++)
         {
 
-            for (int x = 0; x < height; x++)
+            for (int x = 0; x < width; x++)
             {
                 amplitude = 1;
                 frequency = 1;
@@ -90,7 +113,6 @@ public class CaveGenerator : MonoBehaviour
                 }
 
                 terrainMap[x, y] = noiseHeight < 1.0f ? 1 : 0;
-
             }
 
         }
@@ -98,18 +120,23 @@ public class CaveGenerator : MonoBehaviour
 
     public void Explode(float posX, float posY, float radius)
     {
-        int b = 0;
 
         for(int x = 0; x < radius; x++)
         {
             for (int y = 0; y < radius; y++)
             {
-                b++;
-                terrainMap[(int) (-posX + width / 2 + x - radius / 2), (int) (-posY + height / 2 + y - radius / 2)] = 0;
+                int tilex = (int)(posX + width / 2 + x + 0.5f - radius / 2);
+                int tiley = (int)(-posY + height / 2 + y - 0.5f - radius / 2);
+                if(Mathf.Abs(x - radius/2) + Mathf.Abs(y - radius / 2) < radius / 2)
+                {
+                    if (terrainMap[tilex, tiley] == 1)
+                    {
+                        terrainMap[tilex, tiley] = 1;
+                        colliderMap.SetTile(new Vector3Int(tilex - width / 2, -tiley + height / 2, 0), null);
+                    }
+                }       
             }
         }
-
-        UpdateTileMap();
     }
 
     private void UpdateTileMap()
@@ -122,14 +149,10 @@ public class CaveGenerator : MonoBehaviour
             {
                 if (terrainMap[x, y] == 1)
                 {
-                    colliderMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), Rock);
+                    colliderMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), Rock);
                 }
-                else
-                {
-                    backgroundMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), Background);
-                }
+                backgroundMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), Background);
             }
         }
     }
-    
 }
