@@ -63,7 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\CaveGenerator.cs" />
+    <Compile Include="Assets\EnemyAI.cs" />
     <Compile Include="Assets\Falling.cs" />
+    <Compile Include="Assets\MenuActions.cs" />
     <Compile Include="Assets\PlayerControl.cs" />
     <Compile Include="Assets\paralaxContainer.cs" />
     <Reference Include="Unity.Timeline.Editor">

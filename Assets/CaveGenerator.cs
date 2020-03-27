@@ -8,6 +8,7 @@ public class CaveGenerator : MonoBehaviour
 {
 
     private int[,] terrainMap;
+    private int[,] terrainMapContents;
 
     public bool useRandomSeed;
     public int seed;
@@ -17,8 +18,23 @@ public class CaveGenerator : MonoBehaviour
 
     public Tilemap colliderMap;
     public Tilemap backgroundMap;
-    public Tile Rock;
-    public Tile Background;
+    public Tile TileSOLID;
+    public Tile TileEMPTY;
+    public Tile TileUP;
+    public Tile TileRIGHT;
+    public Tile TileDOWN;
+    public Tile TileLEFT;
+    public Tile TileGOLD;
+    public Tile TileRUBY;
+    public Tile TileDIAMOND;
+
+    public GameObject DropDiamond;
+    public GameObject DropRuby;
+    public GameObject DropGold;
+
+    public GameObject Enemy;
+
+
     public GameObject fallingRock;
     System.Random randomGenerator;
 
@@ -28,7 +44,7 @@ public class CaveGenerator : MonoBehaviour
         GenerateCaves(2,1,1, 10.0f);
         UpdateTileMap();
         GenerateFallingRocks();
-
+       // GenerateEnemies();
 
     }
 
@@ -43,9 +59,29 @@ public class CaveGenerator : MonoBehaviour
                 {
                     if (terrainMap[x, y - 1] == 1)
                     {
-                        if (randomGenerator.NextDouble() < 1.1f )
+                        if (randomGenerator.NextDouble() < 0.2f )
                         {
                             Instantiate(fallingRock, new Vector3(x - width / 2 + 0.5f, (height - y) - height / 2 + 0.5f, 0), Quaternion.identity);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void GenerateEnemies()
+    {
+        for (int y = 1; y < height - 1; y++)
+        {
+            for (int x = 1; x < width - 1; x++)
+            {
+                if (terrainMap[x, y] == 0)
+                {
+                    if (terrainMap[x, y + 1] == 1)
+                    {
+                        if (randomGenerator.NextDouble() < 0.07f)
+                        {
+                            Instantiate(Enemy, new Vector3(x - width / 2 + 0.5f, (height - y) - height / 2 + 0.5f, 0), Quaternion.identity);
                         }
                     }
                 }
@@ -59,8 +95,15 @@ public class CaveGenerator : MonoBehaviour
         colliderMap.ClearAllTiles();
         backgroundMap.ClearAllTiles();
         terrainMap = new int[width, height];
-
-
+        terrainMapContents = new int[width, height];
+        for(int x = 0; x < width; x++)
+        {
+            for(int y = 0; y < height; y++)
+            {
+                terrainMap[x, y] = 0;
+                terrainMapContents[x, y] = 0;
+            }
+        }
     }
 
 
@@ -129,10 +172,35 @@ public class CaveGenerator : MonoBehaviour
                 int tiley = (int)(-posY + height / 2 + y - 0.5f - radius / 2);
                 if(Mathf.Abs(x - radius/2) + Mathf.Abs(y - radius / 2) < radius / 2)
                 {
-                    if (terrainMap[tilex, tiley] == 1)
+                    if (terrainMap[tilex, tiley] >= 1)
                     {
-                        terrainMap[tilex, tiley] = 1;
+                        if (terrainMapContents[tilex, tiley] > 0)
+                        {
+                            if (terrainMapContents[tilex, tiley] == 2)
+                            {
+                                Debug.Log("instantiating d");
+                                Instantiate(DropDiamond, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
+
+                            }
+                            else if (terrainMapContents[tilex, tiley] == 3)
+                            {
+                                Debug.Log("instantiating r");
+
+                                Instantiate(DropRuby, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
+
+                            }
+                            else if (terrainMapContents[tilex, tiley] == 4)
+                            {
+                                Debug.Log("instantiating g");
+
+                                Instantiate(DropGold, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
+
+                            }
+                        }
+                        terrainMap[tilex, tiley] = 0;
+                        terrainMapContents[tilex, tilex] = 0;
                         colliderMap.SetTile(new Vector3Int(tilex - width / 2, -tiley + height / 2, 0), null);
+                        
                     }
                 }       
             }
@@ -147,11 +215,65 @@ public class CaveGenerator : MonoBehaviour
         {
             for (int y = 0; y < width; y++)
             {
+                backgroundMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), TileEMPTY);
+
                 if (terrainMap[x, y] == 1)
                 {
-                    colliderMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), Rock);
+                    if (x != 0 && x != width - 1 && y != 0 && y != height - 1)
+                    {
+                        if (terrainMap[x, y - 1] == 0)
+                        {
+                            colliderMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), TileUP);
+                            continue;
+                        }
+                        else if (terrainMap[x + 1, y] == 0)
+                        {
+                            colliderMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), TileRIGHT);
+                            continue;
+
+                        }
+                        else if (terrainMap[x, y + 1] == 0)
+                        {
+                            colliderMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), TileDOWN);
+                            continue;
+
+                        }
+                        else if (terrainMap[x - 1, y] == 0)
+                        {
+                            colliderMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), TileLEFT);
+                            continue;
+
+                        }
+                        double r = randomGenerator.NextDouble();
+                        if(r < 0.02)
+                        {
+                            terrainMapContents[x, y] = 2;
+                            colliderMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), TileDIAMOND);
+                            continue;
+
+                        }
+                        else if (r < 0.05)
+                        {
+                            terrainMapContents[x, y] = 3;
+
+                            colliderMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), TileRUBY);
+                            continue;
+
+                        }
+                        else if (r < 0.1)
+                        {
+                            terrainMapContents[x, y] = 4;
+
+                            colliderMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), TileGOLD);
+                            continue;
+
+                        }
+                        else
+                        {
+                            colliderMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), TileSOLID);
+                        }
+                    }
                 }
-                backgroundMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), Background);
             }
         }
     }

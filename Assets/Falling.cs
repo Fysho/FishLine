@@ -32,7 +32,6 @@ public class Falling : MonoBehaviour
         {
             if(Time.time-startTime > 2.0f)
             {
-                Debug.Log("ded");
                 GameObject.Destroy(gameObject);
             }
         }
