@@ -1,0 +1,54 @@
+###
+# Unity folders and files
+###
+[Aa]ssets/AssetStoreTools*
+[Bb]uild/
+[Ll]ibrary/
+[Ll]ocal[Cc]ache/
+/[Oo]bj/
+[Tt]emp/
+[Uu]nityGenerated/
+# file on crash reports
+sysinfo.txt
+# Unity3D generated meta files
+*.pidb.meta
+
+###
+# VS/MD solution and project files
+###
+[Ee]xportedObj/
+*.booproj
+*.suo
+*.svd
+*.unityproj
+*.user
+*.userprefs
+*.pidb
+*.gbackup
+.DS_Store
+
+###
+# OS generated
+###
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# below changes did not come with this git ignoe -> james made them
+.vs/
+Library
+Assets/Libraries
+Assets/Logs
+Assets/Logs.meta
+
+
+obj/Debug/Assembly-CSharp-Editor.csprojAssemblyReference.cache
+obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache
+
+obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache
+*.cache
