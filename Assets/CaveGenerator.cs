@@ -136,7 +136,7 @@ public class CaveGenerator : MonoBehaviour
 
                 for (int i = 0; i < octaves; i++)
                 {
-                    float sampleX = (x /*- halfWidth*/ + octaveOffsets[i].x) / scale * frequency;
+                    float sampleX = (x /*- halfWidth*/ + octaveOffsets[i].x) / (scale * 4) * frequency;
                     float sampleY = (y /*- halfHeight*/ + octaveOffsets[i].y) / scale * frequency;
 
 

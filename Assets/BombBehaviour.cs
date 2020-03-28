@@ -32,7 +32,8 @@ public class BombBehaviour : MonoBehaviour
     private void Explode()
     {
         Instantiate(bombExplosion, transform.position, Quaternion.identity);
-
+        GameObject cave = GameObject.Find("CaveGenerator");
+        cave.GetComponent<CaveGenerator>().Explode(transform.position.x, transform.position.y, 12);
         int mask = 1 << 8;
         
         Collider[] hitCollider = Physics.OverlapSphere(transform.position, blastRadius, mask);
