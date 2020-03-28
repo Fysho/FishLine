@@ -12,7 +12,7 @@ public class PlayerControl : MonoBehaviour
 
     public float speed = 1;
     public CaveGenerator caveGenerator;
-    
+
     [Header("Jumping")]
     public float jumpStrength = 1;
     [Tooltip("Amount of double jumps")]
@@ -20,7 +20,7 @@ public class PlayerControl : MonoBehaviour
     public AnimationCurve jumpInputCurve;
     public float coyoteTimeAmount;
 
-    [Header("Physics"), Tooltip("The collider that determines if the player is touching the ground")] 
+    [Header("Physics"), Tooltip("The collider that determines if the player is touching the ground")]
     public Collider2D groundCollider;
 
     private int doubleJumps;
@@ -31,7 +31,7 @@ public class PlayerControl : MonoBehaviour
     private bool canDoubleJump = true;
     private bool isJumpPressed;
     private bool jumpLock;
-    private bool hasJumped;
+    private bool isJumping;
     private Collider2D collider;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
@@ -39,11 +39,14 @@ public class PlayerControl : MonoBehaviour
     private float coyoteTime;
     private GameObject healthBar;
     private int health = 100;
-    [Header("Extra")] 
+    [Header("Extra")]
     public GameObject jumpPuff;
     [Tooltip("Offset the puff spawn location")]
     public Vector2 jumpPuffOffset;
-        
+
+    private bool CanNormalJump => coyoteTime > 0 && !groundJumpLock && !isJumping;
+    private bool CanDoubleJump => doubleJumps > 0;
+
     private void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
@@ -55,22 +58,22 @@ public class PlayerControl : MonoBehaviour
         healthBar.GetComponent<Slider>().value = 1;
     }
 
-    
+
     // TODO think about this temporary code.
     private IEnumerator ExplodeAfterSeconds()
     {
         yield return new WaitForSeconds(1);
         caveGenerator.Explode(transform.position.x, transform.position.y, 12);
     }
-    
-    
+
+
     private void Update()
     {
         CheckGround();
         // Debug.Log($"Grounded is {isGrounded}");
-        
+
         ApplyCoyoteTime();
-        
+
 
         float horizontalInput = Input.GetAxis("Horizontal");
         float horizontalVelocity = horizontalInput * speed;
@@ -79,7 +82,7 @@ public class PlayerControl : MonoBehaviour
         // Animations
         animator.SetBool("IsAirborne", !isGrounded);
         animator.SetBool("Walking", Mathf.Abs(horizontalInput) > 0.1f);
-        animator.SetBool("UpVelocity", hasJumped);
+        animator.SetBool("UpVelocity", isJumping);
 
         if (horizontalInput < -0.2f)
         {
@@ -89,7 +92,7 @@ public class PlayerControl : MonoBehaviour
         {
             spriteRenderer.flipX = false;
         }
-        
+
         // Horizontal Movement
         rigidBody.velocity = new Vector2(horizontalVelocity, rigidBody.velocity.y);
     }
@@ -125,54 +128,53 @@ public class PlayerControl : MonoBehaviour
         float jumpInput = Mathf.Max(0, Input.GetAxis("Jump"));
 
         // Check if player should jump.
-        if (jumpInput > 0 && !jumpLock && (coyoteTime > 0 || isGrounded || doubleJumps > 0))
+        if (jumpInput > 0 && !jumpLock && (CanNormalJump || CanDoubleJump))
         {
-            hasJumped = true;
-            groundJumpLock = true;
-            isJumpPressed = true;
-            jumpLock = true;
-            
             // Check if double jumping.
-            if (!isGrounded && coyoteTime == 0)
+            if (!CanNormalJump)
             {
-                // Negate Falling velocity
+                // Negate vertical velocity to get that double jump feeling.
                 rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0);
-                
+
                 doubleJumps = Mathf.Max(0, doubleJumps - 1);
                 CreateJumpPuff();
             }
-            // Debug.Log($"{(!isGrounded ? "Double Jumping" : "Jumping")} doubleJumps {doubleJumps} input {jumpInput}");
+            isJumping = true;
+            groundJumpLock = true;
+            isJumpPressed = true;
+            jumpLock = true;
         }
-        
+
         // Remove lock once jump is no longer being pressed.
         if (jumpInput == 0 && jumpLock)
         {
-            // Debug.Log("Unlock jump");
             jumpLock = false;
         }
 
         // Process constant jump input and apply it to force.
         if (isJumpPressed && jumpInput > 0)
         {
-            //Debug.Log($"Input {jumpInput} => {jumpInputCurve.Evaluate(jumpInput)} => With Strength {jumpStrength * jumpInputCurve.Evaluate(jumpInput)}");
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpStrength * jumpInputCurve.Evaluate(jumpInput));
         }
-        
+
         // If the Jump button is on longer pressed or has been pressed all the way, we are no longer taking any jump input.
         if (jumpInput == 1 || jumpInput == 0)
         {
             isJumpPressed = false;
         }
-        
-        // Reset doubleJumps when touching the ground.
-        doubleJumps = isGrounded ? doubleJumpsAmount : doubleJumps;
 
+        // Release ground lock when no longer touching the ground.
         if (!isGrounded)
+        {
             groundJumpLock = false;
-        
-        // Reset hasJump
+        }
+
+        // When touching the ground again after any jump, reset double jump and player is no longer jumping.
         if (isGrounded && !groundJumpLock)
-            hasJumped = false;
+        {
+            isJumping = false;
+            doubleJumps = doubleJumpsAmount;
+        }
     }
 
     public void Damage(int damage)
