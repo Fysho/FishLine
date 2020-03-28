@@ -32,6 +32,11 @@ public class PlayerControl : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private bool groundJumpLock;
+
+    [Header("Extra")] 
+    public GameObject jumpPuff;
+    [Tooltip("Offset the puff spawn location")]
+    public Vector2 jumpPuffOffset;
         
     private void Start()
     {
@@ -103,8 +108,13 @@ public class PlayerControl : MonoBehaviour
             groundJumpLock = true;
             isJumpPressed = true;
             jumpLock = true;
-            // Subtract doubleJumps if player is double jumping.
-            doubleJumps = isGrounded ? doubleJumps : Mathf.Max(0, doubleJumps - 1);
+            
+            // Check if double jumping.
+            if (!isGrounded)
+            {
+                doubleJumps = Mathf.Max(0, doubleJumps - 1);
+                CreateJumpPuff();
+            }
             // Debug.Log($"{(!isGrounded ? "Double Jumping" : "Jumping")} doubleJumps {doubleJumps} input {jumpInput}");
         }
         
@@ -136,5 +146,16 @@ public class PlayerControl : MonoBehaviour
         // Reset hasJump
         if (isGrounded && !groundJumpLock)
             hasJumped = false;
+    }
+
+    private void CreateJumpPuff()
+    {
+        if (jumpPuff)
+        {
+            Vector3 puffLocation = transform.position;
+            puffLocation.y -= collider.bounds.size.y / 2f;
+            puffLocation += (Vector3) jumpPuffOffset;
+            Instantiate(jumpPuff, puffLocation, Quaternion.identity);
+        }
     }
 }
