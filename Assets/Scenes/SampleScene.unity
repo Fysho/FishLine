@@ -460,7 +460,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &646090942
 GameObject:
@@ -494,7 +494,7 @@ Transform:
   - {fileID: 725262068}
   - {fileID: 1147100122}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &674424620
 GameObject:
@@ -1818,6 +1818,26 @@ PrefabInstance:
         type: 3}
       propertyPath: jumpPuffOffset.y
       value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4272865074750401282, guid: 5c91da119f5958a66af943cf6e04b9d2,
+        type: 3}
+      propertyPath: jumpInputCurve.m_Curve.Array.data[1].time
+      value: 0.9958191
+      objectReference: {fileID: 0}
+    - target: {fileID: 4272865074750401282, guid: 5c91da119f5958a66af943cf6e04b9d2,
+        type: 3}
+      propertyPath: jumpInputCurve.m_Curve.Array.data[1].inSlope
+      value: 0.3372596
+      objectReference: {fileID: 0}
+    - target: {fileID: 4272865074750401282, guid: 5c91da119f5958a66af943cf6e04b9d2,
+        type: 3}
+      propertyPath: jumpInputCurve.m_Curve.Array.data[1].outSlope
+      value: 0.3372596
+      objectReference: {fileID: 0}
+    - target: {fileID: 4272865074750401282, guid: 5c91da119f5958a66af943cf6e04b9d2,
+        type: 3}
+      propertyPath: jumpInputCurve.m_Curve.Array.data[1].inWeight
+      value: 0.20919369
       objectReference: {fileID: 0}
     - target: {fileID: 4272865074750401283, guid: 5c91da119f5958a66af943cf6e04b9d2,
         type: 3}

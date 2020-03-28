@@ -450,7 +450,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.007916138, y: -0.59125876}
+  m_Offset: {x: 0.002288282, y: -0.5995908}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -461,7 +461,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.26370358, y: 0.41426802}
+  m_Size: {x: 0.347107, y: 0.43093204}
   m_EdgeRadius: 0
 --- !u!1 &4272865074750401283
 GameObject:
@@ -566,13 +566,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 9
-  jumpStrength: 1.4
   caveGenerator: {fileID: 0}
+  jumpStrength: 10
   doubleJumpsAmount: 1
+  jumpInputCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.0073605
+      outSlope: 2.0073605
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.058333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.63700247
+      outSlope: 0.63700247
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.125
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  coyoteTimeAmount: 0.15
   groundCollider: {fileID: 1429932124698343121}
   jumpPuff: {fileID: 3403693222922028138, guid: 29518524bb8f3a24787d1d92c2e6d153,
     type: 3}
-  jumpPuffOffset: {x: 0, y: -0.3}
+  jumpPuffOffset: {x: 0, y: -0.25}
 --- !u!50 &4272865074750401407
 Rigidbody2D:
   serializedVersion: 4
@@ -585,7 +610,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 4
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
