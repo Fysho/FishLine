@@ -43,7 +43,8 @@ public class PlayerControl : MonoBehaviour
     public GameObject jumpPuff;
     [Tooltip("Offset the puff spawn location")]
     public Vector2 jumpPuffOffset;
-
+    private GameObject camera;
+    private float shakeTime;
     private bool CanNormalJump => coyoteTime > 0 && !groundJumpLock && !isJumping;
     private bool CanDoubleJump => doubleJumps > 0;
 
@@ -56,6 +57,8 @@ public class PlayerControl : MonoBehaviour
         StartCoroutine(ExplodeAfterSeconds());
         healthBar = GameObject.Find("HealthBar");
         healthBar.GetComponent<Slider>().value = 1;
+        camera = GameObject.Find("Main Camera");
+
     }
 
 
@@ -70,6 +73,7 @@ public class PlayerControl : MonoBehaviour
     private void Update()
     {
         CheckGround();
+        CheckShake();
         // Debug.Log($"Grounded is {isGrounded}");
 
         ApplyCoyoteTime();
@@ -181,9 +185,26 @@ public class PlayerControl : MonoBehaviour
     {
         health -= damage;
         healthBar.GetComponent<Slider>().value = health / 100.0f;
-
+        shakeTime = 0.3f;
     }
 
+    System.Random rand;
+    private void CheckShake()
+    {
+        if (rand == null) rand = new System.Random();
+        if(shakeTime > 0)
+        {
+            float x = (float) rand.NextDouble() * shakeTime;
+            float y = (float) rand.NextDouble() * shakeTime;
+            camera.transform.localPosition = new Vector3(x, y, -10);
+            shakeTime -= Time.deltaTime;
+            if(shakeTime < 0)
+            {
+                camera.transform.localPosition = new Vector3(0,0,-10);
+
+            }
+        }
+    }
     private void CreateJumpPuff()
     {
         if (jumpPuff)

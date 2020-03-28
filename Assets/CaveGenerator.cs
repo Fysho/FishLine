@@ -33,6 +33,7 @@ public class CaveGenerator : MonoBehaviour
     public GameObject DropGold;
 
     public GameObject Enemy;
+    public GameObject Skeleton;
 
 
     public GameObject fallingRock;
@@ -44,7 +45,7 @@ public class CaveGenerator : MonoBehaviour
         GenerateCaves(4,0.5f,0.5f, 0.9f, 10.0f);
         UpdateTileMap();
         GenerateFallingRocks();
-        GenerateEnemies();
+       // GenerateEnemies();
 
     }
 
@@ -79,9 +80,14 @@ public class CaveGenerator : MonoBehaviour
                 {
                     if (terrainMap[x, y + 1] == 1)
                     {
-                        if (randomGenerator.NextDouble() < 0.07f)
+                        double t = randomGenerator.NextDouble();
+                        if (t < 0.05f)
                         {
                             Instantiate(Enemy, new Vector3(x - width / 2 + 0.5f, (height - y) - height / 2 + 0.5f, 0), Quaternion.identity);
+                        }
+                        else if (t < 0.06f)
+                        {
+                            Instantiate(Skeleton, new Vector3(x - width / 2 + 0.5f, (height - y) - height / 2 + 0.5f, 0), Quaternion.identity);
                         }
                     }
                 }
