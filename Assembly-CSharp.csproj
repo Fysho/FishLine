@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\AnimatorCleanup.cs" />
     <Compile Include="Assets\BombBehaviour.cs" />
     <Compile Include="Assets\BombController.cs" />
     <Compile Include="Assets\CaveGenerator.cs" />
