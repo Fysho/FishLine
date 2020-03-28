@@ -41,7 +41,7 @@ public class CaveGenerator : MonoBehaviour
     void Start()
     {
         SetUp();
-        GenerateCaves(2,1,1, 10.0f);
+        GenerateCaves(4,0.5f,0.5f, 0.9f, 10.0f);
         UpdateTileMap();
         GenerateFallingRocks();
        // GenerateEnemies();
@@ -107,7 +107,7 @@ public class CaveGenerator : MonoBehaviour
     }
 
 
-    private void GenerateCaves(int octaves, float persistance, float lacunarity, float scale)
+    private void GenerateCaves(int octaves, float persistance, float lacunarity, float threshold, float scale)
     {
         randomGenerator = new System.Random(seed);
         Vector2[] octaveOffsets = new Vector2[octaves];
@@ -155,7 +155,7 @@ public class CaveGenerator : MonoBehaviour
                     frequency *= lacunarity;
                 }
 
-                terrainMap[x, y] = noiseHeight < 1.0f ? 1 : 0;
+                terrainMap[x, y] = noiseHeight < threshold ? 1 : 0;
             }
 
         }
