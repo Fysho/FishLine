@@ -48,13 +48,12 @@ public class PlayerControl : MonoBehaviour
     private void Update()
     {
         CheckGround();
-        
         // Debug.Log($"Grounded is {isGrounded}");
         
         float horizontalVelocity = Input.GetAxis("Horizontal") * speed;
         HandleJumpInput();
 
-        
+        // Horizontal Movement
         rigidBody.velocity = new Vector2(horizontalVelocity, rigidBody.velocity.y);
     }
 
@@ -83,13 +82,13 @@ public class PlayerControl : MonoBehaviour
             jumpLock = true;
             // Subtract doubleJumps if player is double jumping.
             doubleJumps = isGrounded ? doubleJumps : Mathf.Max(0, doubleJumps - 1);
-            Debug.Log($"{(!isGrounded ? "Double Jumping" : "Jumping")} doubleJumps {doubleJumps} input {jumpInput}");
+            // Debug.Log($"{(!isGrounded ? "Double Jumping" : "Jumping")} doubleJumps {doubleJumps} input {jumpInput}");
         }
         
         // Remove lock once jump is no longer being pressed.
         if (jumpInput == 0 && jumpLock)
         {
-            Debug.Log("Unlock jump");
+            // Debug.Log("Unlock jump");
             jumpLock = false;
         }
 
