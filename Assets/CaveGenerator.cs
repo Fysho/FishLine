@@ -44,7 +44,7 @@ public class CaveGenerator : MonoBehaviour
         GenerateCaves(4,0.5f,0.5f, 0.9f, 10.0f);
         UpdateTileMap();
         GenerateFallingRocks();
-       // GenerateEnemies();
+        GenerateEnemies();
 
     }
 

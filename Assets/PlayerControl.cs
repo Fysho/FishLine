@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerControl : MonoBehaviour
 {
     bool wInput = false;
@@ -37,7 +37,8 @@ public class PlayerControl : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private bool groundJumpLock;
     private float coyoteTime;
-
+    private GameObject healthBar;
+    private int health = 100;
     [Header("Extra")] 
     public GameObject jumpPuff;
     [Tooltip("Offset the puff spawn location")]
@@ -50,6 +51,8 @@ public class PlayerControl : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         StartCoroutine(ExplodeAfterSeconds());
+        healthBar = GameObject.Find("HealthBar");
+        healthBar.GetComponent<Slider>().value = 1;
     }
 
     
@@ -151,7 +154,7 @@ public class PlayerControl : MonoBehaviour
         // Process constant jump input and apply it to force.
         if (isJumpPressed && jumpInput > 0)
         {
-            Debug.Log($"Input {jumpInput} => {jumpInputCurve.Evaluate(jumpInput)} => With Strength {jumpStrength * jumpInputCurve.Evaluate(jumpInput)}");
+            //Debug.Log($"Input {jumpInput} => {jumpInputCurve.Evaluate(jumpInput)} => With Strength {jumpStrength * jumpInputCurve.Evaluate(jumpInput)}");
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpStrength * jumpInputCurve.Evaluate(jumpInput));
         }
         
@@ -170,6 +173,13 @@ public class PlayerControl : MonoBehaviour
         // Reset hasJump
         if (isGrounded && !groundJumpLock)
             hasJumped = false;
+    }
+
+    public void Damage(int damage)
+    {
+        health -= damage;
+        healthBar.GetComponent<Slider>().value = health / 100.0f;
+
     }
 
     private void CreateJumpPuff()
