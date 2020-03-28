@@ -63,3 +63,9 @@ obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache
 # Visual Studio Code
 ###
 **/.vscode
+
+###
+# Ignore C# related files that Unity generates
+###
+*.csproj
+*.sln

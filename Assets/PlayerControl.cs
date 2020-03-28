@@ -4,60 +4,108 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     bool wInput = false;
     bool aInput = false;
     bool sInput = false;
     bool dInput = false;
     bool shiftInput = false;
 
-    Rigidbody2D rigidBody;
+    public float speed = 1;
+    public float jumpStrength = 1;
     public CaveGenerator caveGenerator;
-    void Start()
+    [Tooltip("Amount of double jumps")]
+    public int doubleJumpsAmount;
+
+    [Header("Physics"), Tooltip("The collider that determines if the player is touching the ground")] 
+    public Collider2D groundCollider;
+
+    private int doubleJumps;
+    private bool isGrounded;
+    private float jumpCooldown;
+    private Rigidbody2D rigidBody;
+    private float groundDetectPoint;
+    private bool canDoubleJump = true;
+    private bool isJumpPressed;
+    private bool jumpLock;
+    private Collider2D collider;
+        
+    private void Start()
     {
-        rigidBody = gameObject.GetComponent<Rigidbody2D>();
+        rigidBody = GetComponent<Rigidbody2D>();
+        collider = GetComponent<Collider2D>();
+        StartCoroutine(ExplodeAfterSeconds());
+    }
+
+    
+    // TODO think about this temporary code.
+    private IEnumerator ExplodeAfterSeconds()
+    {
+        yield return new WaitForSeconds(1);
+        caveGenerator.Explode(transform.position.x, transform.position.y, 12);
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        GetInput();
-        Move();
+        CheckGround();
+        
+        // Debug.Log($"Grounded is {isGrounded}");
+        
+        float horizontalVelocity = Input.GetAxis("Horizontal") * speed;
+        HandleJumpInput();
 
         
+        rigidBody.velocity = new Vector2(horizontalVelocity, rigidBody.velocity.y);
     }
 
-    void Move()
+    private void CheckGround()
     {
-        float dt = Time.deltaTime;
-        Vector3 setVel = new Vector3(0, 0, 0);
-        if (aInput) setVel = setVel + new Vector3(!shiftInput ? - 500 * dt : -1250 * dt, 0, 0);
-        if (dInput) setVel = setVel + new Vector3(!shiftInput ? 500 * dt : 1250 * dt, 0, 0);
-        setVel.y = rigidBody.velocity.y;
-        rigidBody.velocity = setVel;
-        if (wInput)
+        isGrounded = false;
+
+        List<Collider2D> overlaps = new List<Collider2D>();
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.SetLayerMask(~(1 << 9));
+
+        if (groundCollider.OverlapCollider(filter, overlaps) > 0)
         {
-            rigidBody.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
-            wInput = false;
-        }
-        if (sInput)
-        {
-            caveGenerator.Explode(transform.position.x, transform.position.y, 10);
+            isGrounded = true;
         }
     }
 
-    public void GetInput()
+    private void HandleJumpInput()
     {
-        if (Input.GetKeyDown(KeyCode.W)){ wInput = true; }
-        if (Input.GetKeyUp(KeyCode.W))  { wInput = false; }
-        if (Input.GetKeyDown(KeyCode.A)){ aInput = true; }
-        if (Input.GetKeyUp(KeyCode.A))  { aInput = false; }
-        if (Input.GetKeyDown(KeyCode.S)){ sInput = true; }
-        if (Input.GetKeyUp(KeyCode.S))  { sInput = false; }
-        if (Input.GetKeyDown(KeyCode.D)){ dInput = true; }
-        if (Input.GetKeyUp(KeyCode.D))  { dInput = false; }
-        if (Input.GetKeyDown(KeyCode.LeftShift)) { shiftInput = true; }
-        if (Input.GetKeyUp(KeyCode.LeftShift)) { shiftInput = false; }
+        float jumpInput = Mathf.Max(0, Input.GetAxis("Jump"));
+
+        // Check if player should jump.
+        if (jumpInput > 0 && !jumpLock && (isGrounded || doubleJumps > 0))
+        {
+            isJumpPressed = true;
+            jumpLock = true;
+            // Subtract doubleJumps if player is double jumping.
+            doubleJumps = isGrounded ? doubleJumps : Mathf.Max(0, doubleJumps - 1);
+            Debug.Log($"{(!isGrounded ? "Double Jumping" : "Jumping")} doubleJumps {doubleJumps} input {jumpInput}");
+        }
+        
+        // Remove lock once jump is no longer being pressed.
+        if (jumpInput == 0 && jumpLock)
+        {
+            Debug.Log("Unlock jump");
+            jumpLock = false;
+        }
+
+        // Process constant jump input and apply it to force.
+        if (isJumpPressed)
+        {
+            rigidBody.AddForce(new Vector2(0, jumpStrength * jumpInput), ForceMode2D.Impulse);
+        }
+        
+        // If the Jump button is on longer pressed or has been pressed all the way, we are no longer taking any jump input.
+        if (jumpInput == 1 || jumpInput == 0)
+        {
+            isJumpPressed = false;
+        }
+        
+        // Reset doubleJumps when touching the ground.
+        doubleJumps = isGrounded ? doubleJumpsAmount : doubleJumps;
     }
 }
