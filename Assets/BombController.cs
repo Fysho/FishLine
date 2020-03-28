@@ -3,20 +3,23 @@ using UnityEngine;
 
 public class BombController : MonoBehaviour
 {
-    public float maxCharge = 2.5f;
+    public float maxChargeTime = 1.5f;
     [SerializeField]
     private bool startWithNoBombs;
     public float bombStockMax = 3;
     public float bombReplenishSpeed = 1;
 
-    [Header("Bomb Properties")]
+    [Header("Bomb Creation Properties")]
     public GameObject bomb;
     public float bombSpawnDistance = 0.6f;
     public float bombSpeed = 35;
-    [Tooltip("Time to detonation divided by the charge")]
+    [Tooltip("Time to detonation whereby 1 / value")]
     public AnimationCurve bombDetonationCurve;
     public float bombZPosition;
+    
+    [Header("Bomb Explosion Properties")]
     public float bombBlastRadius;
+    public float bombStrength;
 
     private float charge;
     private bool isCharging;
@@ -38,9 +41,9 @@ public class BombController : MonoBehaviour
                 isCharging = true;
                 charge += Time.deltaTime;
 
-                if (charge > maxCharge)
+                if (charge > maxChargeTime)
                 {
-                    charge = maxCharge;
+                    charge = maxChargeTime;
                     ReleaseBomb();
                 }
             }
@@ -62,11 +65,11 @@ public class BombController : MonoBehaviour
         Vector2 aimDirection = GetAimDirection();
         Vector3 bombLocation = transform.position + (Vector3) (aimDirection * bombSpawnDistance);
         bombLocation.z = bombZPosition;
-        float timeToDetonation = 1 / bombDetonationCurve.Evaluate(charge / maxCharge);
+        float timeToDetonation = 1 / bombDetonationCurve.Evaluate(charge / maxChargeTime);
         Debug.Log($"Releasing bomb with charge {charge} with time to detonation {timeToDetonation}s!");
         GameObject bombObject = Instantiate(bomb, bombLocation, Quaternion.identity);
         
-        bombObject.GetComponent<BombBehaviour>()?.SetDetonation(charge, timeToDetonation, bombBlastRadius);
+        bombObject.GetComponent<BombBehaviour>()?.SetDetonation(charge, timeToDetonation, bombBlastRadius, bombStrength);
         bombObject.GetComponent<Rigidbody2D>()?.AddForce(aimDirection * bombSpeed, ForceMode2D.Impulse);
 
         isCharging = false;

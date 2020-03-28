@@ -478,6 +478,7 @@ GameObject:
   - component: {fileID: 4272865074750401401}
   - component: {fileID: 4272865074750401406}
   - component: {fileID: 2796957534942120672}
+  - component: {fileID: 9008269933884711685}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -610,7 +611,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 4
+  m_Mass: 2.5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -631,39 +632,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aea4215cabe14a6ea0349aa35c905421, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCharge: 2.5
+  maxChargeTime: 1.2
   startWithNoBombs: 0
-  bombStockMax: 3
-  bombReplenishSpeed: 1
+  bombStockMax: 2
+  bombReplenishSpeed: 0.8
   bomb: {fileID: 7512882784233352510, guid: cf6bf0fcacf66b22eb22ae21e1929611, type: 3}
-  bombSpawnDistance: 0.6
-  bombSpeed: 35
+  bombSpawnDistance: 0.75
+  bombSpeed: 12
   bombDetonationCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.49765015
-      inSlope: 0.086774245
-      outSlope: 0.086774245
+      value: 0.5
+      inSlope: 4.8112597
+      outSlope: 4.8112597
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.20331661
+      outWeight: 0.13333334
     - serializedVersion: 3
-      time: 1.0041809
-      value: 2
-      inSlope: 4.505507
-      outSlope: 4.505507
+      time: 1
+      value: 10
+      inSlope: 12.255366
+      outSlope: 12.255366
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.041507393
+      inWeight: 0.08333331
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   bombZPosition: 0
-  bombBlastRadius: 3
+  bombBlastRadius: 15
+  bombStrength: 50
 --- !u!61 &4272865074750401406
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -709,6 +711,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &9008269933884711685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4272865074750401283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b574219812943d998a7141ccbea96ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  additionalDrag: 1
 --- !u!1 &4272865075501723969
 GameObject:
   m_ObjectHideFlags: 0

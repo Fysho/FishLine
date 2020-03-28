@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class PlayerControl : MonoBehaviour
+public class PlayerControl : MonoBehaviour, IBodyController
 {
     bool wInput = false;
     bool aInput = false;
@@ -44,6 +44,8 @@ public class PlayerControl : MonoBehaviour
     [Tooltip("Offset the puff spawn location")]
     public Vector2 jumpPuffOffset;
 
+    // Required ExternalVelocity from IBodyController
+    public Vector2 ExternalVelocity { get; set; } = Vector2.zero;
     private bool CanNormalJump => coyoteTime > 0 && !groundJumpLock && !isJumping;
     private bool CanDoubleJump => doubleJumps > 0;
 
@@ -93,8 +95,8 @@ public class PlayerControl : MonoBehaviour
             spriteRenderer.flipX = false;
         }
 
-        // Horizontal Movement
-        rigidBody.velocity = new Vector2(horizontalVelocity, rigidBody.velocity.y);
+        // Horizontal Movement and external velocity
+        rigidBody.velocity = new Vector2(horizontalVelocity, rigidBody.velocity.y) + ExternalVelocity;
     }
 
     private void ApplyCoyoteTime()
@@ -155,6 +157,7 @@ public class PlayerControl : MonoBehaviour
         if (isJumpPressed && jumpInput > 0)
         {
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpStrength * jumpInputCurve.Evaluate(jumpInput));
+            // rigidBody.AddForce(new Vector2(0, jumpStrength * jumpInputCurve.Evaluate(jumpInput)), ForceMode2D.Impulse);
         }
 
         // If the Jump button is on longer pressed or has been pressed all the way, we are no longer taking any jump input.
