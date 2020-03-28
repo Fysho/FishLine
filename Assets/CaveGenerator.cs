@@ -215,7 +215,7 @@ public class CaveGenerator : MonoBehaviour
         {
             for (int y = 0; y < width; y++)
             {
-                backgroundMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), TileEMPTY);
+                //backgroundMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), TileEMPTY);
 
                 if (terrainMap[x, y] == 1)
                 {
