@@ -158,8 +158,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d32fd1d757ef5940be9d083655648ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 11
-  jumpStrength: 1.7
+  speed: 9
+  jumpStrength: 1.4
   caveGenerator: {fileID: 0}
   doubleJumpsAmount: 1
   groundCollider: {fileID: 1429932124698343121}
