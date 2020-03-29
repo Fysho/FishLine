@@ -13,7 +13,7 @@ enum States
   
 
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour, IBodyController
 {
 
     int state = 0;
@@ -31,6 +31,10 @@ public class EnemyAI : MonoBehaviour
     static int count = 0;
     public GameObject player;
     public Collider2D groundCollider;
+    
+    // Required ExternalVelocity from IBodyController
+    public Vector2 ExternalVelocity { get; set; } = Vector2.zero;
+    
     private void Start()
     {
         count++;
@@ -94,7 +98,8 @@ public class EnemyAI : MonoBehaviour
 
             }
             Vector3 newVel = new Vector3(xSpeed, rb.velocity.y, 0);
-            rb.velocity = newVel;
+            // Set velocity with added external velocity
+            rb.velocity = newVel + (Vector3) ExternalVelocity;
 
             if (stateTime > walkTime)
             {
