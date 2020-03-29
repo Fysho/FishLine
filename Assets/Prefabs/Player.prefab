@@ -606,6 +606,7 @@ MonoBehaviour:
   grappleSwingSpeed: 1
   grappleSpawnDistance: 0.6
   jumpSound: {fileID: 8300000, guid: 1a89cb7ff36289940aeaaaa36a99b193, type: 3}
+  isGrounded: 0
 --- !u!50 &4272865074750401407
 Rigidbody2D:
   serializedVersion: 4
@@ -642,7 +643,7 @@ MonoBehaviour:
   maxChargeTime: 1.2
   startWithNoBombs: 0
   bombStockMax: 2
-  bombReplenishSpeed: 0.8
+  bombReplenishSpeed: 0.65
   bomb: {fileID: 7512882784233352510, guid: cf6bf0fcacf66b22eb22ae21e1929611, type: 3}
   bombSpawnDistance: 0.75
   bombSpeed: 12
@@ -651,21 +652,21 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
-      inSlope: 4.8112597
-      outSlope: 4.8112597
-      tangentMode: 0
+      value: 0.1
+      inSlope: 2.9
+      outSlope: 2.9
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.13333334
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 10
-      inSlope: 12.255366
-      outSlope: 12.255366
-      tangentMode: 0
+      value: 3
+      inSlope: 2.9
+      outSlope: 2.9
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.08333331
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -747,6 +748,7 @@ MonoBehaviour:
   startingHealth: 100
   maxHealth: 100
   armour: 0
+  cam: {fileID: 0}
 --- !u!1 &4272865075501723969
 GameObject:
   m_ObjectHideFlags: 0
