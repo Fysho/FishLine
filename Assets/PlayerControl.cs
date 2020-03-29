@@ -41,7 +41,8 @@ public class PlayerControl : MonoBehaviour, IBodyController
     public AudioClip song;
 
     private int doubleJumps;
-    private bool isGrounded;
+    [HideInInspector]
+    public bool isGrounded;
     private float jumpCooldown;
     private Rigidbody2D rigidBody;
     private float groundDetectPoint;
@@ -118,6 +119,8 @@ public class PlayerControl : MonoBehaviour, IBodyController
 
         // Horizontal Movement and external velocity
         rigidBody.velocity = new Vector2(horizontalVelocity, rigidBody.velocity.y) + ExternalVelocity;
+        
+        GetComponent<BombController>()?.ReplenishBombs();
     }
 
     private void ApplyCoyoteTime()
@@ -138,7 +141,7 @@ public class PlayerControl : MonoBehaviour, IBodyController
 
         List<Collider2D> overlaps = new List<Collider2D>();
         ContactFilter2D filter = new ContactFilter2D();
-        filter.SetLayerMask(~(1 << 9));
+        filter.SetLayerMask(~((1 << 9) | (1 << 12)));
 
         if (groundCollider.OverlapCollider(filter, overlaps) > 0)
         {

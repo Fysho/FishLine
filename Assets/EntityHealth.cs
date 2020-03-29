@@ -23,6 +23,8 @@ public class EntityHealth : MonoBehaviour, IHealth
     public virtual void TakeDamage(float amount)
     {
         currentHealth -= amount / (armour + 1);
+        GetComponent<FlashDamageEffect>()?.CreateFlashEffect();
+        
         if(currentHealth <= 0)
         {
             gameObject.GetComponent<EnemyAI>()?.PlayDeathNoise();

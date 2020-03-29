@@ -28,11 +28,13 @@ public class BombController : MonoBehaviour
     private bool isCharging;
     private bool isFiring;
     private float bombStock;
+    private PlayerControl playerControl;
 
     private void Start()
     {
         if (!startWithNoBombs)
             bombStock = bombStockMax;
+        playerControl = GetComponent<PlayerControl>();
     }
 
     private void Update()
@@ -62,6 +64,14 @@ public class BombController : MonoBehaviour
         bombStock = Mathf.Min(bombStock + bombReplenishSpeed * Time.deltaTime, bombStockMax);
     }
 
+    public void ReplenishBombs()
+    {
+        if (playerControl.isGrounded)
+        {
+            // Recharge here when touching the ground.
+        }
+    }
+
     private void ReleaseBomb()
     {
         if (throwSound)
@@ -71,8 +81,8 @@ public class BombController : MonoBehaviour
         Vector2 aimDirection = GetAimDirection();
         Vector3 bombLocation = transform.position + (Vector3) (aimDirection * bombSpawnDistance);
         bombLocation.z = bombZPosition;
-        float timeToDetonation = 1 / bombDetonationCurve.Evaluate(charge / maxChargeTime);
-        //Debug.Log($"Releasing bomb with charge {charge} with time to detonation {timeToDetonation}s!");
+        float timeToDetonation = bombDetonationCurve.Evaluate(charge / maxChargeTime);
+        Debug.Log($"Releasing bomb with charge {charge} with time to detonation {timeToDetonation}s!");
         GameObject bombObject = Instantiate(bomb, bombLocation, Quaternion.identity);
         
         bombObject.GetComponent<BombBehaviour>()?.SetDetonation(charge, timeToDetonation, bombBlastRadius, bombStrength);
