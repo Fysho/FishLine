@@ -27,6 +27,7 @@ public class CaveGenerator : MonoBehaviour
     public Tile TileGOLD;
     public Tile TileRUBY;
     public Tile TileDIAMOND;
+    public Tile TileBEDROCK;
 
     public GameObject DropDiamond;
     public GameObject DropRuby;
@@ -45,7 +46,7 @@ public class CaveGenerator : MonoBehaviour
         GenerateCaves(4,0.5f,0.5f, 0.9f, 10.0f);
         UpdateTileMap();
         GenerateFallingRocks();
-       // GenerateEnemies();
+        GenerateEnemies();
 
     }
 
@@ -85,7 +86,7 @@ public class CaveGenerator : MonoBehaviour
                         {
                             Instantiate(Enemy, new Vector3(x - width / 2 + 0.5f, (height - y) - height / 2 + 0.5f, 0), Quaternion.identity);
                         }
-                        else if (t < 0.06f)
+                        else if (t < 0.075f)
                         {
                             Instantiate(Skeleton, new Vector3(x - width / 2 + 0.5f, (height - y) - height / 2 + 0.5f, 0), Quaternion.identity);
                         }
@@ -176,6 +177,10 @@ public class CaveGenerator : MonoBehaviour
             {
                 int tilex = (int)(posX + width / 2 + x + 0.5f - radius / 2);
                 int tiley = (int)(-posY + height / 2 + y - 0.5f - radius / 2);
+                if(tilex < 0 || tiley < 0 || tilex > width - 1 || tiley > height - 1)
+                {
+                    continue;
+                }
                 if(Mathf.Abs(x - radius/2) + Mathf.Abs(y - radius / 2) < radius / 2)
                 {
                     if (terrainMap[tilex, tiley] >= 1)
@@ -184,23 +189,24 @@ public class CaveGenerator : MonoBehaviour
                         {
                             if (terrainMapContents[tilex, tiley] == 2)
                             {
-                                Debug.Log("instantiating d");
                                 Instantiate(DropDiamond, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
 
                             }
                             else if (terrainMapContents[tilex, tiley] == 3)
                             {
-                                Debug.Log("instantiating r");
 
                                 Instantiate(DropRuby, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
 
                             }
                             else if (terrainMapContents[tilex, tiley] == 4)
                             {
-                                Debug.Log("instantiating g");
 
                                 Instantiate(DropGold, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
 
+                            }
+                            else if (terrainMapContents[tilex, tiley] == 5)
+                            {
+                                continue;
                             }
                         }
                         terrainMap[tilex, tiley] = 0;
@@ -222,6 +228,14 @@ public class CaveGenerator : MonoBehaviour
             for (int y = 0; y < width; y++)
             {
                 //backgroundMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), TileEMPTY);
+              
+                if(x == 0 || y == 0 || x == width - 1 || y == height - 1)
+                {
+                    terrainMapContents[x, y] = 5;
+                    colliderMap.SetTile(new Vector3Int(x - width / 2, -y + height / 2, 0), TileBEDROCK);
+                    continue;
+
+                }
 
                 if (terrainMap[x, y] == 1)
                 {

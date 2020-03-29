@@ -13,7 +13,8 @@ public class SkeletonAI : MonoBehaviour
     float stateTime;
     float jumpTime;
     float damageTime;
-
+    float shootTime;
+    float shootSeconds = 1;
     float idleTime = 2;
     float walkTime = 1;
 
@@ -68,11 +69,15 @@ public class SkeletonAI : MonoBehaviour
             float xSpeed = left ? -3 : 3;
             jumpTime -= Time.deltaTime;
             damageTime -= Time.deltaTime;
-
-            //if(damageTime < 0)
-            //{
-            //    player.transform.position - transform.position).magniude    
-            //}
+            shootTime -= Time.deltaTime;
+            if(shootTime < 0)
+            {
+                Vector3 direction = (player.transform.position - transform.position).normalized;
+                //float mag = (player.transform.position - transform.position).magnitude;
+                GameObject a = Instantiate(arrow, new Vector3(transform.position.x -0.5f, transform.position.y + 0.5f, 0), Quaternion.identity);
+                a.GetComponent<ArrowAI>().Init(direction * 20.0f );
+                shootTime = shootSeconds;
+            }
             if (player.transform.position.y - transform.position.y > 3 && jumpTime < 0)
             {
                 List<Collider2D> overlaps = new List<Collider2D>();
@@ -118,7 +123,7 @@ public class SkeletonAI : MonoBehaviour
     {
         jumpTime = 0;
         damageTime = 0;
-
+        shootTime = shootSeconds;
         stateTime = 0;
         state = (int)States.CHASE;
     }

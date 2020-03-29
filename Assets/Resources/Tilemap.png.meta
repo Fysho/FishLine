@@ -47,6 +47,18 @@ TextureImporter:
   - first:
       213: -1706084216362820205
     second: Tilemap_8
+  - first:
+      213: -6730103992040101658
+    second: Tilemap_6
+  - first:
+      213: 4667520067075966269
+    second: Tilemap_7
+  - first:
+      213: 2831778560195288419
+    second: Tilemap_8
+  - first:
+      213: -762470507989373169
+    second: Tilemap_9
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -261,6 +273,27 @@ TextureImporter:
       name: Tilemap_6
       rect:
         serializedVersion: 2
+        x: 0
+        y: 448
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e8e20da31ed992a0800000000000000
+      internalID: -6730103992040101658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tilemap_7
+      rect:
+        serializedVersion: 2
         x: 32
         y: 448
         width: 32
@@ -272,14 +305,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 574818774b1c46430800000000000000
-      internalID: 3775355368486569077
+      spriteID: d35021c75cc56c040800000000000000
+      internalID: 4667520067075966269
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tilemap_7
+      name: Tilemap_8
       rect:
         serializedVersion: 2
         x: 32
@@ -293,14 +326,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 846e58dfc3fb0ef50800000000000000
-      internalID: 6908732097058694728
+      spriteID: 36dd10bd89f7c4720800000000000000
+      internalID: 2831778560195288419
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tilemap_8
+      name: Tilemap_9
       rect:
         serializedVersion: 2
         x: 32
@@ -314,8 +347,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 39d1bc6c175c258e0800000000000000
-      internalID: -1706084216362820205
+      spriteID: f0fe49bdc192b65f0800000000000000
+      internalID: -762470507989373169
       vertices: []
       indices: 
       edges: []

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1126033629}
   - component: {fileID: 1126033628}
   m_Layer: 10
-  m_Name: GameObject
+  m_Name: PlayerDetecter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.7
 --- !u!114 &1126033628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 8831578652273151734}
   - component: {fileID: 8831578652273151729}
   - component: {fileID: 8831578652273151732}
+  - component: {fileID: 8831578652273151735}
   m_Layer: 0
   m_Name: Slimeenemy
   m_TagString: Untagged
@@ -218,7 +219,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 2
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -285,3 +286,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   groundCollider: {fileID: 1902755874}
+--- !u!114 &8831578652273151735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641428114268931634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b574219812943d998a7141ccbea96ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  additionalDrag: 1
