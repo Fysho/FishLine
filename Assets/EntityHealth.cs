@@ -23,6 +23,10 @@ public class EntityHealth : MonoBehaviour, IHealth
     public virtual void TakeDamage(float amount)
     {
         currentHealth -= amount / (armour + 1);
+        if(currentHealth <= 0)
+        {
+            GameObject.Destroy(gameObject);
+        }
     }
 
     public virtual void Heal(float amount)
