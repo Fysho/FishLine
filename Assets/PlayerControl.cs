@@ -38,6 +38,7 @@ public class PlayerControl : MonoBehaviour, IBodyController
     
     [Header("Sounds")]
     public AudioClip jumpSound;
+    public AudioClip song;
 
     private int doubleJumps;
     private bool isGrounded;
@@ -70,6 +71,8 @@ public class PlayerControl : MonoBehaviour, IBodyController
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         //StartCoroutine(ExplodeAfterSeconds());
+        gameObject.GetComponent<AudioSource>().PlayOneShot(song, 0.03f);
+
     }
 
 

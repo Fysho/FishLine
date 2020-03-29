@@ -49,7 +49,10 @@ public class PlayerHealth : EntityHealth
             }
             iframes = maxIframe;
         }
-        Debug.Log(currentHealth);
+        if(currentHealth <= 0)
+        {
+
+        }
 
     }
 
