@@ -52,7 +52,7 @@ public class PlayerHealth : EntityHealth
         }
         if(currentHealth <= 0)
         {
-            //gameObject.GetComponent<Animator>().SetBool("IsAirborne", !isGrounded);
+            gameObject.GetComponent<Animator>().SetBool("IsDead", true);
             gameObject.GetComponent<PlayerControl>().SetDead();
         }
 
