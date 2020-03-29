@@ -44,6 +44,6 @@ public class ArrowAI : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody2D>();
 
         float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
-        sprite.transform.rotation.SetEulerAngles(0, 0, angle);
+        sprite.transform.localRotation = Quaternion.LookRotation(Vector3.forward, rb.velocity);
     }
 }

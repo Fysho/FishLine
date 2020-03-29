@@ -55,6 +55,10 @@ public class PlayerControl : MonoBehaviour, IBodyController
     private bool CanNormalJump => coyoteTime > 0 && !groundJumpLock && !isJumping;
     private bool CanDoubleJump => doubleJumps > 0;
 
+
+    public AudioClip jumpNoise;
+    public AudioClip throwNoise;
+
     private void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
@@ -185,6 +189,8 @@ public class PlayerControl : MonoBehaviour, IBodyController
         // Process constant jump input and apply it to force.
         if (isJumpPressed && jumpInput > 0)
         {
+            AudioSource.PlayClipAtPoint(jumpNoise, transform.position);
+
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpStrength * jumpInputCurve.Evaluate(jumpInput));
             // rigidBody.AddForce(new Vector2(0, jumpStrength * jumpInputCurve.Evaluate(jumpInput)), ForceMode2D.Impulse);
         }

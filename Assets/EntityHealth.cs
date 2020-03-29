@@ -25,6 +25,9 @@ public class EntityHealth : MonoBehaviour, IHealth
         currentHealth -= amount / (armour + 1);
         if(currentHealth <= 0)
         {
+            gameObject.GetComponent<EnemyAI>()?.PlayDeathNoise();
+            gameObject.GetComponent<SkeletonAI>()?.PlayDeathNoise();
+
             GameObject.Destroy(gameObject);
         }
     }

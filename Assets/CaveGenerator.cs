@@ -189,19 +189,21 @@ public class CaveGenerator : MonoBehaviour
                         {
                             if (terrainMapContents[tilex, tiley] == 2)
                             {
-                                Instantiate(DropDiamond, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
-
+                                GameObject g = Instantiate(DropDiamond, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
+                               // g.GetComponent<Collectable>().Begin();
                             }
                             else if (terrainMapContents[tilex, tiley] == 3)
                             {
 
-                                Instantiate(DropRuby, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
+                                GameObject g = Instantiate(DropRuby, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
+                                //g.GetComponent<Collectable>().Begin();
 
                             }
                             else if (terrainMapContents[tilex, tiley] == 4)
                             {
 
-                                Instantiate(DropGold, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
+                                GameObject g = Instantiate(DropGold, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
+                              //  g.GetComponent<Collectable>().Begin();
 
                             }
                             else if (terrainMapContents[tilex, tiley] == 5)

@@ -33,12 +33,17 @@ public class BombBehaviour : MonoBehaviour
     private void Explode()
     {
         Instantiate(bombExplosion, transform.position, Quaternion.identity);
-        
+        PlaySound();
         ExplodeTiles();
         ExplodeBodies();
         DamageBodies();
 
         Destroy(gameObject);
+    }
+
+    private void PlaySound()
+    {
+        AudioSource.PlayClipAtPoint(gameObject.GetComponent<AudioSource>().clip, transform.position);
     }
 
     private void ExplodeTiles()
