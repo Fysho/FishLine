@@ -37,14 +37,10 @@ public class PlayerControl : MonoBehaviour, IBodyController
     private SpriteRenderer spriteRenderer;
     private bool groundJumpLock;
     private float coyoteTime;
-    private GameObject healthBar;
-    private int health = 100;
     [Header("Extra")]
     public GameObject jumpPuff;
     [Tooltip("Offset the puff spawn location")]
     public Vector2 jumpPuffOffset;
-    private GameObject camera;
-    private float shakeTime;
 
     // Required ExternalVelocity from IBodyController
     public Vector2 ExternalVelocity { get; set; } = Vector2.zero;
@@ -59,10 +55,6 @@ public class PlayerControl : MonoBehaviour, IBodyController
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         StartCoroutine(ExplodeAfterSeconds());
-        healthBar = GameObject.Find("HealthBar");
-        healthBar.GetComponent<Slider>().value = 1;
-        camera = GameObject.Find("Main Camera");
-
     }
 
 
@@ -77,7 +69,6 @@ public class PlayerControl : MonoBehaviour, IBodyController
     private void Update()
     {
         CheckGround();
-        CheckShake();
         // Debug.Log($"Grounded is {isGrounded}");
 
         ApplyCoyoteTime();
@@ -186,30 +177,13 @@ public class PlayerControl : MonoBehaviour, IBodyController
         }
     }
 
-    public void Damage(int damage)
-    {
-        health -= damage;
-        healthBar.GetComponent<Slider>().value = health / 100.0f;
-        shakeTime = 0.3f;
-    }
-
-    System.Random rand;
-    private void CheckShake()
-    {
-        if (rand == null) rand = new System.Random();
-        if(shakeTime > 0)
-        {
-            float x = (float) rand.NextDouble() * shakeTime;
-            float y = (float) rand.NextDouble() * shakeTime;
-            camera.transform.localPosition = new Vector3(x, y, -10);
-            shakeTime -= Time.deltaTime;
-            if(shakeTime < 0)
-            {
-                camera.transform.localPosition = new Vector3(0,0,-10);
-
-            }
-        }
-    }
+    // public void Damage(int damage)
+    // {
+    //     health -= damage;
+    //     healthBar.GetComponent<Slider>().value = health / 100.0f;
+    //     shakeTime = 0.3f;
+    // }
+    
     private void CreateJumpPuff()
     {
         if (jumpPuff)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ArrowAI : MonoBehaviour
 {
-
+    public float arrowDamage = 6;
     public GameObject sprite;
 
     Rigidbody2D rb;
@@ -21,10 +21,18 @@ public class ArrowAI : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Player")  //layers not working
+        // if (collision.gameObject.name == "Player")  //layers not working
+        // {
+            // GameObject.Find("Player").GetComponent<PlayerControl>().Damage(10);
+            
+        // }
+        
+        PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+            
+        if (playerHealth)
         {
-            GameObject.Find("Player").GetComponent<PlayerControl>().Damage(10);
-
+            playerHealth.TakeDamage(arrowDamage);
+            // Probably need to destroy the arrow here.
         }
     }
 
