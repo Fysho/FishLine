@@ -101,6 +101,10 @@ public class BombBehaviour : MonoBehaviour
             {
                 hitCollider.gameObject.GetComponent<EntityHealth>().TakeDamage(40);
             }
+            if (String.Compare(hitCollider.gameObject.tag, "Chest") == 0)
+            {
+                hitCollider.gameObject.GetComponent<Chest>().Explode();
+            }
         }
     }
     public void SetDetonation(float charge, float timeToDetonation, float blastRadius, float blastStrength)

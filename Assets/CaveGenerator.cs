@@ -35,7 +35,7 @@ public class CaveGenerator : MonoBehaviour
 
     public GameObject Enemy;
     public GameObject Skeleton;
-
+    public GameObject Chest;
 
     public GameObject fallingRock;
     System.Random randomGenerator;
@@ -47,6 +47,7 @@ public class CaveGenerator : MonoBehaviour
         UpdateTileMap();
         GenerateFallingRocks();
         GenerateEnemies();
+        GenerateChests(); 
 
     }
 
@@ -90,6 +91,28 @@ public class CaveGenerator : MonoBehaviour
                         {
                             Instantiate(Skeleton, new Vector3(x - width / 2 + 0.5f, (height - y) - height / 2 + 0.5f, 0), Quaternion.identity);
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    public void GenerateChests()
+    {
+        for (int y = 1; y < height - 1; y++)
+        {
+            for (int x = 1; x < width - 1; x++)
+            {
+                if (terrainMap[x, y] == 0)
+                {
+                    if (terrainMap[x, y + 1] == 1)
+                    {
+                        double t = randomGenerator.NextDouble();
+                        if (t < 0.21f)
+                        {
+                            Instantiate(Chest, new Vector3(x - width / 2 + 0.5f, (height - y) - height / 2 - 0.2f, 0), Quaternion.identity);
+                        }
+                   
                     }
                 }
             }
