@@ -69,7 +69,7 @@ public class PlayerControl : MonoBehaviour, IBodyController
         collider = GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        StartCoroutine(ExplodeAfterSeconds());
+        //StartCoroutine(ExplodeAfterSeconds());
     }
 
 

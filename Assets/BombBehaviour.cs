@@ -60,6 +60,8 @@ public class BombBehaviour : MonoBehaviour
         
         foreach (Collider2D hitCollider in hitColliders)
         {
+            
+            //if (hitCollider.tag == "Spike") continue;
             Vector2 hitVector = hitCollider.transform.position - transform.position;
             float hitDistance = hitVector.magnitude;
             Vector2 hitDirection = hitVector.normalized;
@@ -96,7 +98,7 @@ public class BombBehaviour : MonoBehaviour
 
         foreach (Collider2D hitCollider in hitColliders)
         {
-
+            Debug.Log(hitCollider.name);
             if (String.Compare(hitCollider.gameObject.tag, "Enemy") == 0)
             {
                 hitCollider.gameObject.GetComponent<EntityHealth>().TakeDamage(40);
