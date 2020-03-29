@@ -9,7 +9,7 @@ public class PlayerControl : MonoBehaviour, IBodyController
     bool sInput = false;
     bool dInput = false;
     bool shiftInput = false;
-
+    bool dead = false;
     public float speed = 1;
     public CaveGenerator caveGenerator;
 
@@ -83,9 +83,14 @@ public class PlayerControl : MonoBehaviour, IBodyController
         caveGenerator.Explode(transform.position.x, transform.position.y, 12);
     }
 
+    public void SetDead()
+    {
+        dead = true;
+    }
 
     private void Update()
     {
+        if (dead) return;
         CheckGround();
         // Debug.Log($"Grounded is {isGrounded}");
 
