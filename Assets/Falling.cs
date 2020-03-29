@@ -5,13 +5,14 @@ using UnityEngine;
 public class Falling : MonoBehaviour
 {
 
-    public GameObject player;
+    GameObject player;
     Rigidbody2D rb;
     bool fallen;
     float startTime;
 
     void Start()
     {
+        player = GameObject.Find("Player");
         rb = gameObject.GetComponent<Rigidbody2D>();
         fallen = false;
     }

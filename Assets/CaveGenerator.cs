@@ -35,7 +35,7 @@ public class CaveGenerator : MonoBehaviour
 
     public GameObject Enemy;
     public GameObject Skeleton;
-
+    public GameObject Chest;
 
     public GameObject fallingRock;
     System.Random randomGenerator;
@@ -47,6 +47,7 @@ public class CaveGenerator : MonoBehaviour
         UpdateTileMap();
         GenerateFallingRocks();
         GenerateEnemies();
+        GenerateChests(); 
 
     }
 
@@ -90,6 +91,28 @@ public class CaveGenerator : MonoBehaviour
                         {
                             Instantiate(Skeleton, new Vector3(x - width / 2 + 0.5f, (height - y) - height / 2 + 0.5f, 0), Quaternion.identity);
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    public void GenerateChests()
+    {
+        for (int y = 1; y < height - 1; y++)
+        {
+            for (int x = 1; x < width - 1; x++)
+            {
+                if (terrainMap[x, y] == 0)
+                {
+                    if (terrainMap[x, y + 1] == 1)
+                    {
+                        double t = randomGenerator.NextDouble();
+                        if (t < 0.01f)
+                        {
+                            Instantiate(Chest, new Vector3(x - width / 2 + 0.5f, (height - y) - height / 2 - 0.2f, 0), Quaternion.identity);
+                        }
+                   
                     }
                 }
             }
@@ -166,6 +189,22 @@ public class CaveGenerator : MonoBehaviour
             }
 
         }
+        for (int y = height / 2 - 5; y < height / 2+ 5; y++)
+        {
+
+            for (int x = width / 2- 5; x < width /2  + 5; x++)
+            {
+
+                terrainMap[x, y] = 0;
+            }
+
+        }
+        for (int x = width / 2 - 5; x < width / 2 + 5; x++)
+        {
+
+            terrainMap[x, height / 2 + 5] = 1;
+            terrainMapContents[x, height / 2 + 5] = 5;
+        }
     }
 
     public void Explode(float posX, float posY, float radius)
@@ -183,25 +222,27 @@ public class CaveGenerator : MonoBehaviour
                 }
                 if(Mathf.Abs(x - radius/2) + Mathf.Abs(y - radius / 2) < radius / 2)
                 {
-                    if (terrainMap[tilex, tiley] >= 1)
+                    if (terrainMap[tilex, tiley] >= 1 && terrainMapContents[tilex, tiley] != 5)
                     {
                         if (terrainMapContents[tilex, tiley] > 0)
                         {
                             if (terrainMapContents[tilex, tiley] == 2)
                             {
-                                Instantiate(DropDiamond, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
-
+                                GameObject g = Instantiate(DropDiamond, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
+                               // g.GetComponent<Collectable>().Begin();
                             }
                             else if (terrainMapContents[tilex, tiley] == 3)
                             {
 
-                                Instantiate(DropRuby, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
+                                GameObject g = Instantiate(DropRuby, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
+                                //g.GetComponent<Collectable>().Begin();
 
                             }
                             else if (terrainMapContents[tilex, tiley] == 4)
                             {
 
-                                Instantiate(DropGold, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
+                                GameObject g = Instantiate(DropGold, new Vector3(tilex - width / 2 + 0.5f, (height - tiley) - height / 2 + 0.5f, 0), Quaternion.identity);
+                              //  g.GetComponent<Collectable>().Begin();
 
                             }
                             else if (terrainMapContents[tilex, tiley] == 5)

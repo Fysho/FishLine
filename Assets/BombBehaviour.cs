@@ -33,11 +33,17 @@ public class BombBehaviour : MonoBehaviour
     private void Explode()
     {
         Instantiate(bombExplosion, transform.position, Quaternion.identity);
-        
+        PlaySound();
         ExplodeTiles();
         ExplodeBodies();
+        DamageBodies();
 
         Destroy(gameObject);
+    }
+
+    private void PlaySound()
+    {
+        AudioSource.PlayClipAtPoint(gameObject.GetComponent<AudioSource>().clip, transform.position);
     }
 
     private void ExplodeTiles()
@@ -73,6 +79,7 @@ public class BombBehaviour : MonoBehaviour
             }
             
             Debug.DrawLine(transform.position, hitCollider.transform.position, Color.yellow, 5);
+            
         }
         
         Debug.DrawRay(transform.position, Vector3.up * blastRadius, Color.red, 6);
@@ -81,6 +88,25 @@ public class BombBehaviour : MonoBehaviour
         Debug.DrawRay(transform.position, Vector3.down * blastRadius, Color.red, 6);
     }
 
+    private void DamageBodies()
+    {
+        int mask = 1 << 8;
+
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 5);
+
+        foreach (Collider2D hitCollider in hitColliders)
+        {
+
+            if (String.Compare(hitCollider.gameObject.tag, "Enemy") == 0)
+            {
+                hitCollider.gameObject.GetComponent<EntityHealth>().TakeDamage(40);
+            }
+            if (String.Compare(hitCollider.gameObject.tag, "Chest") == 0)
+            {
+                hitCollider.gameObject.GetComponent<Chest>().Explode();
+            }
+        }
+    }
     public void SetDetonation(float charge, float timeToDetonation, float blastRadius, float blastStrength)
     {
         this.charge = charge;

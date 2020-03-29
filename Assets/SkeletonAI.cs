@@ -21,16 +21,28 @@ public class SkeletonAI : MonoBehaviour
     System.Random rng;
     Rigidbody2D rb;
     static int count = 0;
-    public GameObject player;
+    GameObject player;
     public Collider2D groundCollider;
     public GameObject arrow;
+
+    public AudioClip die;
+    public AudioClip jump;
+    public AudioClip shoot;
+    
     private void Start()
     {
+        player = GameObject.Find("Player");
         count++;
         rng = new System.Random(count);
         stateTime = (int)States.IDLE;
         rb = gameObject.GetComponent<Rigidbody2D>();
         idleTime = (float)rng.NextDouble() * 10;
+    }
+
+    public void PlayDeathNoise()
+    {
+        AudioSource.PlayClipAtPoint(die, transform.position);
+
     }
 
     private void Update()
@@ -54,6 +66,7 @@ public class SkeletonAI : MonoBehaviour
             {
                 jumped = true;
                 rb.AddForce(new Vector3(0, 7, 0), ForceMode2D.Impulse);
+
             }
             Vector3 newVel = new Vector3(xSpeed, rb.velocity.y, 0);
             rb.velocity = newVel;
@@ -72,6 +85,8 @@ public class SkeletonAI : MonoBehaviour
             shootTime -= Time.deltaTime;
             if(shootTime < 0)
             {
+                AudioSource.PlayClipAtPoint(shoot, transform.position);
+
                 Vector3 direction = (player.transform.position - transform.position).normalized;
                 //float mag = (player.transform.position - transform.position).magnitude;
                 GameObject a = Instantiate(arrow, new Vector3(transform.position.x -0.5f, transform.position.y + 0.5f, 0), Quaternion.identity);

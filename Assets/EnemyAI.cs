@@ -29,19 +29,28 @@ public class EnemyAI : MonoBehaviour, IBodyController
     System.Random rng;
     Rigidbody2D rb;
     static int count = 0;
-    public GameObject player;
+    GameObject player;
     public Collider2D groundCollider;
-    
+    public AudioClip die;
+    public AudioClip jump;
     // Required ExternalVelocity from IBodyController
     public Vector2 ExternalVelocity { get; set; } = Vector2.zero;
     
     private void Start()
     {
+        player = GameObject.Find("Player");
+
         count++;
         rng = new System.Random(count);
         stateTime = (int) States.IDLE;
         rb = gameObject.GetComponent<Rigidbody2D>();
         idleTime =(float) rng.NextDouble() * 3;
+    }
+
+    public void PlayDeathNoise()
+    {
+        AudioSource.PlayClipAtPoint(die, transform.position);
+
     }
 
     private void Update()
