@@ -2290,41 +2290,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 4272865074750401401, guid: 5c91da119f5958a66af943cf6e04b9d2,
-        type: 3}
-      propertyPath: bombDetonationCurve.m_Curve.Array.data[1].value
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 4272865074750401401, guid: 5c91da119f5958a66af943cf6e04b9d2,
-        type: 3}
-      propertyPath: bombDetonationCurve.m_Curve.Array.data[1].inSlope
-      value: 8.993532
-      objectReference: {fileID: 0}
-    - target: {fileID: 4272865074750401401, guid: 5c91da119f5958a66af943cf6e04b9d2,
-        type: 3}
-      propertyPath: bombDetonationCurve.m_Curve.Array.data[1].outSlope
-      value: 8.993532
-      objectReference: {fileID: 0}
-    - target: {fileID: 4272865074750401401, guid: 5c91da119f5958a66af943cf6e04b9d2,
-        type: 3}
-      propertyPath: bombDetonationCurve.m_Curve.Array.data[1].inWeight
-      value: 0.10833335
-      objectReference: {fileID: 0}
-    - target: {fileID: 4272865074750401401, guid: 5c91da119f5958a66af943cf6e04b9d2,
-        type: 3}
-      propertyPath: bombDetonationCurve.m_Curve.Array.data[0].inSlope
-      value: 5.8785067
-      objectReference: {fileID: 0}
-    - target: {fileID: 4272865074750401401, guid: 5c91da119f5958a66af943cf6e04b9d2,
-        type: 3}
-      propertyPath: bombDetonationCurve.m_Curve.Array.data[0].outSlope
-      value: 5.8785067
-      objectReference: {fileID: 0}
-    - target: {fileID: 4272865074750401401, guid: 5c91da119f5958a66af943cf6e04b9d2,
-        type: 3}
-      propertyPath: bombDetonationCurve.m_Curve.Array.data[0].outWeight
-      value: 0.125
-      objectReference: {fileID: 0}
     - target: {fileID: 4272865074750401404, guid: 5c91da119f5958a66af943cf6e04b9d2,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -31,7 +31,7 @@ public class PlayerHealth : EntityHealth
     public override void TakeDamage(float amount)
     {
         // base.TakeDamage(amount);
-        Debug.Log(currentHealth);
+        Debug.Log($"Health at {currentHealth}");
 
         if(iframes <= 0)
         {
