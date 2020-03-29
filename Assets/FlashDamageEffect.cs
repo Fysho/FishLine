@@ -12,7 +12,7 @@ public class FlashDamageEffect : MonoBehaviour
     private void Start()
     {
         renderer = GetComponent<SpriteRenderer>();
-        originalColor = renderer.color;d
+        originalColor = renderer.color;
     }
 
     public void CreateFlashEffect()
