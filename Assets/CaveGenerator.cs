@@ -108,7 +108,7 @@ public class CaveGenerator : MonoBehaviour
                     if (terrainMap[x, y + 1] == 1)
                     {
                         double t = randomGenerator.NextDouble();
-                        if (t < 0.21f)
+                        if (t < 0.01f)
                         {
                             Instantiate(Chest, new Vector3(x - width / 2 + 0.5f, (height - y) - height / 2 - 0.2f, 0), Quaternion.identity);
                         }
@@ -189,6 +189,22 @@ public class CaveGenerator : MonoBehaviour
             }
 
         }
+        for (int y = height / 2 - 5; y < height / 2+ 5; y++)
+        {
+
+            for (int x = width / 2- 5; x < width /2  + 5; x++)
+            {
+
+                terrainMap[x, y] = 0;
+            }
+
+        }
+        for (int x = width / 2 - 5; x < width / 2 + 5; x++)
+        {
+
+            terrainMap[x, height / 2 + 5] = 1;
+            terrainMapContents[x, height / 2 + 5] = 5;
+        }
     }
 
     public void Explode(float posX, float posY, float radius)
@@ -206,7 +222,7 @@ public class CaveGenerator : MonoBehaviour
                 }
                 if(Mathf.Abs(x - radius/2) + Mathf.Abs(y - radius / 2) < radius / 2)
                 {
-                    if (terrainMap[tilex, tiley] >= 1)
+                    if (terrainMap[tilex, tiley] >= 1 && terrainMapContents[tilex, tiley] != 5)
                     {
                         if (terrainMapContents[tilex, tiley] > 0)
                         {
