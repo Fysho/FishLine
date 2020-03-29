@@ -22,6 +22,16 @@ public class PlayerControl : MonoBehaviour, IBodyController
 
     [Header("Physics"), Tooltip("The collider that determines if the player is touching the ground")]
     public Collider2D groundCollider;
+    
+    [Header("Extra")]
+    public GameObject jumpPuff;
+    [Tooltip("Offset the puff spawn location")]
+    public Vector2 jumpPuffOffset;
+
+    [Header("Grapple Hook")] 
+    public float maxGrappleInAir = 1;
+    public float grappleHookSpeed;
+    public float grappleSpeed;
 
     private int doubleJumps;
     private bool isGrounded;
@@ -37,14 +47,11 @@ public class PlayerControl : MonoBehaviour, IBodyController
     private SpriteRenderer spriteRenderer;
     private bool groundJumpLock;
     private float coyoteTime;
-    [Header("Extra")]
-    public GameObject jumpPuff;
-    [Tooltip("Offset the puff spawn location")]
-    public Vector2 jumpPuffOffset;
+    private float grappleCount;
+    private bool grappleLock;
 
     // Required ExternalVelocity from IBodyController
     public Vector2 ExternalVelocity { get; set; } = Vector2.zero;
-
     private bool CanNormalJump => coyoteTime > 0 && !groundJumpLock && !isJumping;
     private bool CanDoubleJump => doubleJumps > 0;
 
@@ -73,10 +80,11 @@ public class PlayerControl : MonoBehaviour, IBodyController
 
         ApplyCoyoteTime();
 
-
         float horizontalInput = Input.GetAxis("Horizontal");
         float horizontalVelocity = horizontalInput * speed;
+        
         HandleJumpInput();
+        HandleGrapple();
 
         // Animations
         animator.SetBool("IsAirborne", !isGrounded);
@@ -119,6 +127,30 @@ public class PlayerControl : MonoBehaviour, IBodyController
         if (groundCollider.OverlapCollider(filter, overlaps) > 0)
         {
             isGrounded = true;
+        }
+    }
+
+    private void HandleGrapple()
+    {
+        bool isGrappling = Input.GetAxisRaw("Fire2") > 0;
+        
+        if (isGrounded)
+        {
+            grappleCount = maxGrappleInAir;
+        }
+        
+        if (isGrappling && !grappleLock && grappleCount > 0)
+        {
+            grappleLock = true;
+            grappleCount--;
+
+            // Shoot grapple here.
+            // Use grappleSpeed and grappleHookSpeed so we can adjust the hook speed and stuff.
+        }
+
+        if (!isGrappling)
+        {
+            grappleLock = false;
         }
     }
 
