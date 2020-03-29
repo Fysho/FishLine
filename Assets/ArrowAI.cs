@@ -16,6 +16,7 @@ public class ArrowAI : MonoBehaviour
 
     public void Init(Vector3 vel)
     {
+        rb = gameObject.GetComponent<Rigidbody2D>();
         rb.velocity = vel;
     }
 
@@ -40,6 +41,8 @@ public class ArrowAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        rb = gameObject.GetComponent<Rigidbody2D>();
+
         float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
         sprite.transform.rotation.SetEulerAngles(0, 0, angle);
     }
