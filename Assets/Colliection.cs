@@ -12,6 +12,8 @@ public class Colliection : MonoBehaviour
     public Text rubyText;
     public Text diamondText;
 
+    public Text endtext;
+
     void Start()
     {
         
@@ -34,5 +36,12 @@ public class Colliection : MonoBehaviour
         goldText.text = gold.ToString();
         rubyText.text = rubys.ToString();
         diamondText.text = diamonds.ToString();
+    }
+
+    public void FinnishText()
+    {
+        string test = "You finnished with " + gold + " gold, " + rubys + " rubies, and " + diamonds + " diamonds!";
+        endtext.gameObject.SetActive(true);
+        endtext.text = test;
     }
 }
