@@ -98,7 +98,7 @@ public class BombBehaviour : MonoBehaviour
 
         foreach (Collider2D hitCollider in hitColliders)
         {
-
+            Debug.Log(hitCollider.name);
             if (String.Compare(hitCollider.gameObject.tag, "Enemy") == 0)
             {
                 hitCollider.gameObject.GetComponent<EntityHealth>().TakeDamage(40);
