@@ -21,8 +21,9 @@ public class PlayerHealth : EntityHealth
 
     public override void TakeDamage(float amount)
     {
-        base.TakeDamage(amount);
-        
+        // base.TakeDamage(amount);
+        currentHealth = currentHealth - amount;
+        Debug.Log("take damage");
         healthBar.GetComponent<Slider>().value = currentHealth / 100.0f;
         shakeTime = 0.3f;
 
@@ -32,6 +33,8 @@ public class PlayerHealth : EntityHealth
         }
     }
     
+    
+
     System.Random rand;
     private void CheckShake()
     {
@@ -40,7 +43,7 @@ public class PlayerHealth : EntityHealth
         {
             float x = (float) rand.NextDouble() * shakeTime;
             float y = (float) rand.NextDouble() * shakeTime;
-            Camera.transform.localPosition = new Vector3(x, y, -10);
+    
             shakeTime -= Time.deltaTime;
             if(shakeTime < 0)
             {

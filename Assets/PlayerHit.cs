@@ -10,11 +10,10 @@ public class PlayerHit : MonoBehaviour
     {
         // if(collision.gameObject.name == "Player")  //layers not working
         // {
-            // GameObject.Find("Player").GetComponent<PlayerControl>().Damage(10);
-            
-        // }
+        // GameObject.Find("Player").GetComponent<PlayerControl>().Damage(10);
 
-        PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+        // }
+        PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
         
         if (playerHealth)
         {

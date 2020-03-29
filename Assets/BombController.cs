@@ -66,7 +66,7 @@ public class BombController : MonoBehaviour
         Vector3 bombLocation = transform.position + (Vector3) (aimDirection * bombSpawnDistance);
         bombLocation.z = bombZPosition;
         float timeToDetonation = 1 / bombDetonationCurve.Evaluate(charge / maxChargeTime);
-        Debug.Log($"Releasing bomb with charge {charge} with time to detonation {timeToDetonation}s!");
+        //Debug.Log($"Releasing bomb with charge {charge} with time to detonation {timeToDetonation}s!");
         GameObject bombObject = Instantiate(bomb, bombLocation, Quaternion.identity);
         
         bombObject.GetComponent<BombBehaviour>()?.SetDetonation(charge, timeToDetonation, bombBlastRadius, bombStrength);
