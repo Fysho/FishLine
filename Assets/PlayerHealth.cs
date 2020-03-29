@@ -10,6 +10,7 @@ public class PlayerHealth : EntityHealth
     private float shakeTime;
     float iframes;
     float maxIframe;
+    public AudioClip damageSound;
     private void Start()
     {
         healthBar = GameObject.Find("HealthBar");
@@ -31,21 +32,21 @@ public class PlayerHealth : EntityHealth
     public override void TakeDamage(float amount)
     {
         // base.TakeDamage(amount);
-        Debug.Log(currentHealth);
 
-        if(iframes <= 0)
+
+        if (iframes <= 0)
         {
+            AudioSource.PlayClipAtPoint(damageSound, transform.position);
 
-       
-        currentHealth = currentHealth - amount;
-        Debug.Log("take damage");
-        healthBar.GetComponent<Slider>().value = currentHealth / 100.0f;
-        shakeTime = 0.7f;
+            currentHealth = currentHealth - amount;
+            Debug.Log("take damage");
+            healthBar.GetComponent<Slider>().value = currentHealth / 100.0f;
+            shakeTime = 0.7f;
 
-        if (currentHealth <= 0)
-        {
-            // Kill player here
-        }
+            if (currentHealth <= 0)
+            {
+                // Kill player here
+            }
             iframes = maxIframe;
         }
         Debug.Log(currentHealth);

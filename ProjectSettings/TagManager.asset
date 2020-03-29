@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Enemy
   - Chest
-  - Spike
   layers:
   - Default
   - TransparentFX

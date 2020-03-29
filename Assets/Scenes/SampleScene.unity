@@ -1849,8 +1849,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useRandomSeed: 1
   seed: 40
-  width: 200
-  height: 200
+  width: 400
+  height: 400
   colliderMap: {fileID: 788194392}
   backgroundMap: {fileID: 1215676573}
   TileSOLID: {fileID: 11400000, guid: dd8ba4715ecfac44e88dc8afecc9d749, type: 2}
@@ -2233,6 +2233,11 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 1945544221}
+    - target: {fileID: 3910474762549254496, guid: 5c91da119f5958a66af943cf6e04b9d2,
+        type: 3}
+      propertyPath: damageSound
+      value: 
+      objectReference: {fileID: 8300000, guid: fae5d9a9b224b2f489f2e9fa734db4da, type: 3}
     - target: {fileID: 4272865074750401282, guid: 5c91da119f5958a66af943cf6e04b9d2,
         type: 3}
       propertyPath: caveGenerator
