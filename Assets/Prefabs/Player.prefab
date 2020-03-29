@@ -584,13 +584,13 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.058333334
     - serializedVersion: 3
-      time: 1
+      time: 0.9958191
       value: 1
-      inSlope: 0.63700247
-      outSlope: 0.63700247
+      inSlope: 0.3372596
+      outSlope: 0.3372596
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.125
+      inWeight: 0.20919369
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -599,7 +599,12 @@ MonoBehaviour:
   groundCollider: {fileID: 1429932124698343121}
   jumpPuff: {fileID: 3403693222922028138, guid: 29518524bb8f3a24787d1d92c2e6d153,
     type: 3}
-  jumpPuffOffset: {x: 0, y: -0.25}
+  jumpPuffOffset: {x: 0, y: -0.3}
+  hook: {fileID: 4832174032341001792, guid: 61a13a95a6c31efc0b00612b491dd7e8, type: 3}
+  maxGrappleInAir: 1
+  grappleHookSpeed: 5
+  grappleSwingSpeed: 1
+  grappleSpawnDistance: 0.6
 --- !u!50 &4272865074750401407
 Rigidbody2D:
   serializedVersion: 4

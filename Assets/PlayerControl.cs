@@ -29,9 +29,12 @@ public class PlayerControl : MonoBehaviour, IBodyController
     public Vector2 jumpPuffOffset;
 
     [Header("Grapple Hook")] 
+    public GameObject hook;
     public float maxGrappleInAir = 1;
-    public float grappleHookSpeed;
-    public float grappleSpeed;
+    [Min(1)]
+    public float grappleHookSpeed = 1;
+    public float grappleSwingSpeed;
+    public float grappleSpawnDistance = 0.6f;
 
     private int doubleJumps;
     private bool isGrounded;
@@ -49,6 +52,8 @@ public class PlayerControl : MonoBehaviour, IBodyController
     private float coyoteTime;
     private float grappleCount;
     private bool grappleLock;
+    private bool isGrappling;
+    private GrappleHookController currentHook;
 
     // Required ExternalVelocity from IBodyController
     public Vector2 ExternalVelocity { get; set; } = Vector2.zero;
@@ -136,25 +141,45 @@ public class PlayerControl : MonoBehaviour, IBodyController
 
     private void HandleGrapple()
     {
-        bool isGrappling = Input.GetAxisRaw("Fire2") > 0;
+        bool isHoldingGrappleInput = Input.GetAxisRaw("Fire2") > 0;
         
         if (isGrounded)
         {
             grappleCount = maxGrappleInAir;
         }
         
-        if (isGrappling && !grappleLock && grappleCount > 0)
+        if (isHoldingGrappleInput && !isGrappling && grappleCount > 0)
         {
-            grappleLock = true;
+            // grappleLock = true;
+            isGrappling = true;
             grappleCount--;
-
+            
             // Shoot grapple here.
-            // Use grappleSpeed and grappleHookSpeed so we can adjust the hook speed and stuff.
+            // Set grappleSpeed and grappleHookSpeed so we can adjust the hook speed and stu
+
+            Vector2 aimDirection = GetAimDirection();
+
+            Quaternion hookRotation = Quaternion.LookRotation(Vector3.forward, aimDirection);
+            Vector3 hookPosition = transform.position + (Vector3) (aimDirection * grappleSpawnDistance);
+            GameObject hookObject = Instantiate(hook, hookPosition, hookRotation);
+            currentHook = hookObject.GetComponent<GrappleHookController>();
+            currentHook.SetupGrapple(grappleHookSpeed, grappleSwingSpeed, aimDirection);
         }
 
-        if (!isGrappling)
+        // Currently holding grapple button.
+        if (isGrappling)
         {
-            grappleLock = false;
+            Debug.DrawLine(transform.position, currentHook.transform.position, Color.blue);
+            currentHook.OnHookTravelling();
+        }
+
+        // Released grapple button.
+        if (!isHoldingGrappleInput && isGrappling)
+        {
+            currentHook.StopHook();
+            currentHook = null;
+            isGrappling = false;
+            // grappleLock = false;
         }
     }
 
@@ -215,13 +240,6 @@ public class PlayerControl : MonoBehaviour, IBodyController
         }
     }
 
-    // public void Damage(int damage)
-    // {
-    //     health -= damage;
-    //     healthBar.GetComponent<Slider>().value = health / 100.0f;
-    //     shakeTime = 0.3f;
-    // }
-    
     private void CreateJumpPuff()
     {
         if (jumpPuff)
@@ -231,5 +249,10 @@ public class PlayerControl : MonoBehaviour, IBodyController
             puffLocation += (Vector3) jumpPuffOffset;
             Instantiate(jumpPuff, puffLocation, Quaternion.identity);
         }
+    }
+    
+    private Vector2 GetAimDirection()
+    {
+        return (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
     }
 }
