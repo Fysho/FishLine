@@ -20,6 +20,9 @@ public class BombController : MonoBehaviour
     [Header("Bomb Explosion Properties")]
     public float bombBlastRadius;
     public float bombStrength;
+    
+    [Header("Sounds")]
+    public AudioClip throwSound;
 
     private float charge;
     private bool isCharging;
@@ -61,6 +64,9 @@ public class BombController : MonoBehaviour
 
     private void ReleaseBomb()
     {
+        if (throwSound)
+            AudioSource.PlayClipAtPoint(throwSound, transform.position);
+        
         bombStock--;
         Vector2 aimDirection = GetAimDirection();
         Vector3 bombLocation = transform.position + (Vector3) (aimDirection * bombSpawnDistance);

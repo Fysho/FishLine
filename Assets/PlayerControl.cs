@@ -35,6 +35,9 @@ public class PlayerControl : MonoBehaviour, IBodyController
     public float grappleHookSpeed = 1;
     public float grappleSwingSpeed;
     public float grappleSpawnDistance = 0.6f;
+    
+    [Header("Sounds")]
+    public AudioClip jumpSound;
 
     private int doubleJumps;
     private bool isGrounded;
@@ -59,10 +62,6 @@ public class PlayerControl : MonoBehaviour, IBodyController
     public Vector2 ExternalVelocity { get; set; } = Vector2.zero;
     private bool CanNormalJump => coyoteTime > 0 && !groundJumpLock && !isJumping;
     private bool CanDoubleJump => doubleJumps > 0;
-
-
-    public AudioClip jumpNoise;
-    public AudioClip throwNoise;
 
     private void Start()
     {
@@ -190,6 +189,9 @@ public class PlayerControl : MonoBehaviour, IBodyController
         // Check if player should jump.
         if (jumpInput > 0 && !jumpLock && (CanNormalJump || CanDoubleJump))
         {
+            if (jumpSound)
+                AudioSource.PlayClipAtPoint(jumpSound, transform.position);
+            
             // Check if double jumping.
             if (!CanNormalJump)
             {
@@ -214,8 +216,6 @@ public class PlayerControl : MonoBehaviour, IBodyController
         // Process constant jump input and apply it to force.
         if (isJumpPressed && jumpInput > 0)
         {
-            AudioSource.PlayClipAtPoint(jumpNoise, transform.position);
-
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpStrength * jumpInputCurve.Evaluate(jumpInput));
             // rigidBody.AddForce(new Vector2(0, jumpStrength * jumpInputCurve.Evaluate(jumpInput)), ForceMode2D.Impulse);
         }

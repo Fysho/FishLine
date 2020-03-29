@@ -605,6 +605,7 @@ MonoBehaviour:
   grappleHookSpeed: 5
   grappleSwingSpeed: 1
   grappleSpawnDistance: 0.6
+  jumpSound: {fileID: 8300000, guid: 1a89cb7ff36289940aeaaaa36a99b193, type: 3}
 --- !u!50 &4272865074750401407
 Rigidbody2D:
   serializedVersion: 4
@@ -672,6 +673,7 @@ MonoBehaviour:
   bombZPosition: 0
   bombBlastRadius: 15
   bombStrength: 50
+  throwSound: {fileID: 0}
 --- !u!61 &4272865074750401406
 BoxCollider2D:
   m_ObjectHideFlags: 0
