@@ -749,6 +749,7 @@ MonoBehaviour:
   maxHealth: 100
   armour: 0
   cam: {fileID: 0}
+  damageSound: {fileID: 0}
 --- !u!1 &4272865075501723969
 GameObject:
   m_ObjectHideFlags: 0

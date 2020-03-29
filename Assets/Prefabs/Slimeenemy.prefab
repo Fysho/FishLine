@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 8831578652273151735}
   - component: {fileID: 8831578652273151736}
   - component: {fileID: 194128173}
+  - component: {fileID: 956080589472921675}
   m_Layer: 0
   m_Name: Slimeenemy
   m_TagString: Enemy
@@ -414,3 +415,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &956080589472921675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641428114268931634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fff1d2798172464db6b5c5c2030d31e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
+  timeToReset: 0.2
